@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/models/expense.dart';
 
 // A stateful widget will always have 2 classes: the widget class and the state class
 
@@ -12,6 +13,24 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
+    final List<Expense> _registeredExpenses = [
+      Expense(
+          title: 'Flutter Course',
+          amount: 19.99,
+          date: DateTime.now(),
+          category: Category.work),
+      Expense(
+          title: 'Ice Cream',
+          amount: 19.99,
+          date: DateTime.now(),
+          category: Category.food),
+      Expense(
+          title: 'Spa Day',
+          amount: 19.99,
+          date: DateTime.now(),
+          category: Category.leisure),
+    ];
+
     return const Scaffold(
       body: Column(
         children: [
