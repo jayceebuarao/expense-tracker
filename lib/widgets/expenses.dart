@@ -1,3 +1,4 @@
+import 'package:expense_tracker/widgets/expenses_list/expenses_list.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/models/expense.dart';
 
@@ -31,10 +32,14 @@ class _ExpensesState extends State<Expenses> {
           category: Category.leisure),
     ];
 
-    return const Scaffold(
+    return Scaffold(
       body: Column(
         children: [
-          Text('Hello World'),
+          const Text('Hello World'),
+          //
+          Expanded(
+            child: ExpensesList(expenses: _registeredExpenses),
+          ),
         ],
       ),
     );
