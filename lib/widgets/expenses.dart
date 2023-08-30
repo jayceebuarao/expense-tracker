@@ -33,10 +33,16 @@ class _ExpensesState extends State<Expenses> {
     ];
 
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add),
+          )
+        ],
+      ),
       body: Column(
         children: [
-          const Text('Hello World'),
-          //
           Expanded(
             child: ExpensesList(expenses: _registeredExpenses),
           ),
