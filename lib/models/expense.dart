@@ -1,9 +1,21 @@
+import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
+
+final formatter =
+    DateFormat.yMd(); //utility object that formats a date to Y/M/D format
 
 const uuid = Uuid(); //dart package that generate unique IDs
 
 //enums are custom type
 enum Category { food, travel, leisure, work }
+
+const categoryIcons = {
+  Category.food: Icons.lunch_dining,
+  Category.travel: Icons.flight_takeoff,
+  Category.leisure: Icons.movie,
+  Category.work: Icons.work,
+};
 
 //data model
 class Expense {
@@ -19,4 +31,8 @@ class Expense {
   final double amount;
   final DateTime date;
   final Category category;
+
+  String get formattedDate {
+    return formatter.format(date);
+  }
 }
