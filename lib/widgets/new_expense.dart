@@ -27,6 +27,19 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _submitNewExpenseData() {
+    final enteredCost = double.tryParse(_costController.text);
+    final costIsInvalid = enteredCost == null || enteredCost <= 0;
+    if (_titleController.text.isEmpty ||
+        costIsInvalid ||
+        _selectedDate == null ||
+        _selectedCategory == null) {
+      print('invalid data');
+    } else {
+      print('new expense submitted');
+    }
+  }
+
   @override
   void dispose() {
     //called after NewExpense Widget is closed
@@ -110,10 +123,7 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               const Spacer(),
               ElevatedButton(
-                onPressed: () {
-                  print('Title: ${_titleController.text}');
-                  print('Cost Amount: ${_costController.text}');
-                },
+                onPressed: _submitNewExpenseData,
                 child: const Text('Save'),
               )
             ],
