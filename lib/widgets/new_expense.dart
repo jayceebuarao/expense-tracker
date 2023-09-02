@@ -5,7 +5,7 @@ import 'package:expense_tracker/widgets/expenses.dart';
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key, required this.updateExpenses});
 
-  final void Function(dynamic) updateExpenses;
+  final void Function(Expense expense) updateExpenses;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -73,7 +73,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(

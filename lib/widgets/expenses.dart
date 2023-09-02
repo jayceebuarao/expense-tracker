@@ -15,9 +15,15 @@ class Expenses extends StatefulWidget {
 class _ExpensesState extends State<Expenses> {
   final List<Expense> _registeredExpenses = [];
 
-  void updateList(newData) {
+  void _updateExpenses(Expense expense) {
     setState(() {
-      _registeredExpenses.add(newData);
+      _registeredExpenses.add(expense);
+    });
+  }
+
+  void _removeExpenseItem(expense) {
+    setState(() {
+      _registeredExpenses.remove(expense);
     });
   }
 
@@ -25,9 +31,10 @@ class _ExpensesState extends State<Expenses> {
   Widget build(BuildContext context) {
     void _openAddExpenseOverlay() {
       showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
         builder: (ctx) => NewExpense(
-          updateExpenses: updateList,
+          updateExpenses: _updateExpenses,
         ),
       );
     }
@@ -45,7 +52,10 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           Expanded(
-            child: ExpensesList(expenses: _registeredExpenses),
+            child: ExpensesList(
+              expenses: _registeredExpenses,
+              onRemoveExpense: _removeExpenseItem,
+            ),
           ),
         ],
       ),
