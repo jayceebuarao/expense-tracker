@@ -13,30 +13,38 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  final List<Expense> _registeredExpenses = [
+    Expense(
+        title: 'Flutter Course',
+        amount: 13.99,
+        date: DateTime.now(),
+        category: Category.work),
+    Expense(
+        title: 'Ice Cream',
+        amount: 1.99,
+        date: DateTime.now(),
+        category: Category.food),
+    Expense(
+        title: 'Spa Day',
+        amount: 100.99,
+        date: DateTime.now(),
+        category: Category.leisure),
+  ];
+
+  void updateList(newData) {
+    setState(() {
+      _registeredExpenses.add(newData);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Expense> _registeredExpenses = [
-      Expense(
-          title: 'Flutter Course',
-          amount: 13.99,
-          date: DateTime.now(),
-          category: Category.work),
-      Expense(
-          title: 'Ice Cream',
-          amount: 1.99,
-          date: DateTime.now(),
-          category: Category.food),
-      Expense(
-          title: 'Spa Day',
-          amount: 100.99,
-          date: DateTime.now(),
-          category: Category.leisure),
-    ];
-
     void _openAddExpenseOverlay() {
       showModalBottomSheet(
         context: context,
-        builder: (ctx) => NewExpense(),
+        builder: (ctx) => NewExpense(
+          updateExpenses: updateList,
+        ),
       );
     }
 
