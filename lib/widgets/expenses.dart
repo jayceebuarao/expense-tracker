@@ -13,7 +13,23 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
-  final List<Expense> _registeredExpenses = [];
+  final List<Expense> _registeredExpenses = [
+    Expense(
+        title: 'Flutter Course',
+        amount: 13.99,
+        date: DateTime.now(),
+        category: Category.work),
+    Expense(
+        title: 'Ice Cream',
+        amount: 1.99,
+        date: DateTime.now(),
+        category: Category.food),
+    Expense(
+        title: 'Spa Day',
+        amount: 100.99,
+        date: DateTime.now(),
+        category: Category.leisure),
+  ];
 
   void _updateExpenses(Expense expense) {
     setState(() {
@@ -21,21 +37,49 @@ class _ExpensesState extends State<Expenses> {
     });
   }
 
-  void _removeExpenseItem(expense) {
+  void _removeExpenseItem(Expense expense) {
+    final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: const Text('Expense Deleted.'),
+        action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(expenseIndex, expense);
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(
+        updateExpenses: _updateExpenses,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    void _openAddExpenseOverlay() {
-      showModalBottomSheet(
-        isScrollControlled: true,
-        context: context,
-        builder: (ctx) => NewExpense(
-          updateExpenses: _updateExpenses,
-        ),
+    Widget mainContent = const Center(
+      child: Text(
+          'No Expenses so far! :) Start adding your expenses through \'+\''),
+    );
+
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpenses,
+        onRemoveExpense: _removeExpenseItem,
       );
     }
 
@@ -51,12 +95,7 @@ class _ExpensesState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: ExpensesList(
-              expenses: _registeredExpenses,
-              onRemoveExpense: _removeExpenseItem,
-            ),
-          ),
+          Expanded(child: mainContent),
         ],
       ),
     );
