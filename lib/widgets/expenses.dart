@@ -13,6 +13,7 @@ class Expenses extends StatefulWidget {
 }
 
 class _ExpensesState extends State<Expenses> {
+  //_registeredExpenses populated with temporary data
   final List<Expense> _registeredExpenses = [
     Expense(
         title: 'Flutter Course',
@@ -31,27 +32,34 @@ class _ExpensesState extends State<Expenses> {
         category: Category.leisure),
   ];
 
+  //update state when new expense item is added to list
   void _updateExpenses(Expense expense) {
     setState(() {
       _registeredExpenses.add(expense);
     });
   }
 
+  //update state when expense item is removed from list
   void _removeExpenseItem(Expense expense) {
     final expenseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
-    ScaffoldMessenger.of(context).clearSnackBars();
+
+    //snackbar to show delete action
+    ScaffoldMessenger.of(context)
+        .clearSnackBars(); //clear snackbars before showing new snackbars
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: const Duration(seconds: 3),
         content: const Text('Expense Deleted.'),
         action: SnackBarAction(
+          //option to undo delete action
           label: 'Undo',
           onPressed: () {
             setState(() {
-              _registeredExpenses.insert(expenseIndex, expense);
+              _registeredExpenses.insert(expenseIndex,
+                  expense); //insert deleted item back to original position
             });
           },
         ),
@@ -59,6 +67,7 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  //show modal for new item form
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
       isScrollControlled: true,
