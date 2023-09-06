@@ -71,84 +71,88 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: const InputDecoration(
-              label: Text('Title'),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(16, 48, 16, keyboardSpace + 16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _titleController,
+              maxLength: 50,
+              decoration: const InputDecoration(
+                label: Text('Title'),
+              ),
             ),
-          ),
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _costController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    prefixText: '\$',
-                    label: Text('Cost Amount'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _costController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      prefixText: '\$',
+                      label: Text('Cost Amount'),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(_selectedDate == null
-                        ? 'No Date Selected'
-                        : formatter.format(_selectedDate!)),
-                    IconButton(
-                        onPressed: _presentDatePicker,
-                        icon: const Icon(Icons.calendar_month_outlined))
-                  ],
+                const SizedBox(
+                  width: 16,
                 ),
-              )
-            ],
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          DropdownButton(
-              hint: Text('Select a Category'),
-              isExpanded: true,
-              value: _selectedCategory,
-              items: Category.values
-                  .map((category) => DropdownMenuItem(
-                      value: category,
-                      child: Text(category.name.toUpperCase())))
-                  .toList(),
-              onChanged: (value) {
-                if (value == null) {
-                  return;
-                }
-                setState(() {
-                  _selectedCategory = value;
-                });
-              }),
-          Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); //removes widget from screen
-                },
-                child: const Text('Cancel'),
-              ),
-              const Spacer(),
-              ElevatedButton(
-                onPressed: _submitNewExpenseData,
-                child: const Text('Save'),
-              )
-            ],
-          )
-        ],
+                Expanded(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(_selectedDate == null
+                          ? 'No Date Selected'
+                          : formatter.format(_selectedDate!)),
+                      IconButton(
+                          onPressed: _presentDatePicker,
+                          icon: const Icon(Icons.calendar_month_outlined))
+                    ],
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            DropdownButton(
+                hint: Text('Select a Category'),
+                isExpanded: true,
+                value: _selectedCategory,
+                items: Category.values
+                    .map((category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name.toUpperCase())))
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                }),
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); //removes widget from screen
+                  },
+                  child: const Text('Cancel'),
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: _submitNewExpenseData,
+                  child: const Text('Save'),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
