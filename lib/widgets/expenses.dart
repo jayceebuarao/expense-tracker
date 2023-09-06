@@ -70,6 +70,7 @@ class _ExpensesState extends State<Expenses> {
   //show modal for new item form
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true, //avoid overlapping with other device ui
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(
